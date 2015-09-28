@@ -1,0 +1,23 @@
+func install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
+	// GET /<%=name%>
+	// GET all <%=name%>s
+	router.GET("/<%=name%>", func(c *gin.Context) {
+		var <%=name%>s []model.<%=capitalizeName%>
+		db.Find(&<%=name%>s)
+		c.JSON(http.StatusOK, <%=name%>s)
+	})
+
+	// GET /<%=name%>/:guid
+	// GET <%=name%> by guid
+	router.GET("/<%=name%>/:guid", func(c *gin.Context) {
+		guid := c.Param("guid")
+		var <%=name%> model.<%=capitalizeName%>
+		query := &model.<%=capitalizeName%>{
+			<%=capitalizeName%>Data: model.<%=capitalizeName%>Data{Guid: guid},
+		}
+
+		db.Where(&query).First(&<%=name%>)
+
+		c.JSON(http.StatusOK, <%=name%>)
+	})
+}
