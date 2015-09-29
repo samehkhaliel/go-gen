@@ -1,5 +1,6 @@
 
 func InstallActivityRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /activity
 	// GET all activity
 	router.GET("/activity", func(c *gin.Context) {
@@ -24,9 +25,11 @@ func InstallActivityRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallCommentRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /comment
 	// GET all comment
 	router.GET("/comment", func(c *gin.Context) {
@@ -51,15 +54,26 @@ func InstallCommentRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallContentRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /content
 	// GET all content
 	router.GET("/content", func(c *gin.Context) {
-		var content []model.Content
-		db.Find(&content)
-		c.JSON(http.StatusOK, content)
+		if guid := c.Query("guid"); guid != "" {
+		    var content model.Content
+		    query := &model.Content{
+		      ContentData: model.ContentData{Guid: guid},
+		    }
+			  db.Where(&query).First(&content)
+			  c.JSON(http.StatusOK, content)
+			} else {
+			  var content []model.Content
+			  db.Find(&content)
+			  c.JSON(http.StatusOK, content)
+			}
 	})
 
 	// GET /content/:id
@@ -78,15 +92,26 @@ func InstallContentRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallFileRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /file
 	// GET all file
 	router.GET("/file", func(c *gin.Context) {
-		var file []model.File
-		db.Find(&file)
-		c.JSON(http.StatusOK, file)
+		if guid := c.Query("guid"); guid != "" {
+		    var file model.File
+		    query := &model.File{
+		      FileData: model.FileData{Guid: guid},
+		    }
+			  db.Where(&query).First(&file)
+			  c.JSON(http.StatusOK, file)
+			} else {
+			  var file []model.File
+			  db.Find(&file)
+			  c.JSON(http.StatusOK, file)
+			}
 	})
 
 	// GET /file/:id
@@ -105,9 +130,11 @@ func InstallFileRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallGroupRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /group
 	// GET all group
 	router.GET("/group", func(c *gin.Context) {
@@ -132,9 +159,11 @@ func InstallGroupRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallGroupAdminRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /group_admin
 	// GET all group_admin
 	router.GET("/group_admin", func(c *gin.Context) {
@@ -159,9 +188,11 @@ func InstallGroupAdminRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallLikeRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /like
 	// GET all like
 	router.GET("/like", func(c *gin.Context) {
@@ -186,9 +217,11 @@ func InstallLikeRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallLoggingRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /logging
 	// GET all logging
 	router.GET("/logging", func(c *gin.Context) {
@@ -213,9 +246,11 @@ func InstallLoggingRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallMigrationRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /migration
 	// GET all migration
 	router.GET("/migration", func(c *gin.Context) {
@@ -240,9 +275,11 @@ func InstallMigrationRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallModuleEnabledRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /module_enabled
 	// GET all module_enabled
 	router.GET("/module_enabled", func(c *gin.Context) {
@@ -267,9 +304,11 @@ func InstallModuleEnabledRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallNotificationRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /notification
 	// GET all notification
 	router.GET("/notification", func(c *gin.Context) {
@@ -294,9 +333,11 @@ func InstallNotificationRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallPostRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /post
 	// GET all post
 	router.GET("/post", func(c *gin.Context) {
@@ -321,9 +362,11 @@ func InstallPostRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallProfileRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /profile
 	// GET all profile
 	router.GET("/profile", func(c *gin.Context) {
@@ -348,9 +391,11 @@ func InstallProfileRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallProfileFieldRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /profile_field
 	// GET all profile_field
 	router.GET("/profile_field", func(c *gin.Context) {
@@ -375,9 +420,11 @@ func InstallProfileFieldRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallProfileFieldCategoryRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /profile_field_category
 	// GET all profile_field_category
 	router.GET("/profile_field_category", func(c *gin.Context) {
@@ -402,9 +449,11 @@ func InstallProfileFieldCategoryRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallSettingRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /setting
 	// GET all setting
 	router.GET("/setting", func(c *gin.Context) {
@@ -429,15 +478,26 @@ func InstallSettingRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallSpaceRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /space
 	// GET all space
 	router.GET("/space", func(c *gin.Context) {
-		var space []model.Space
-		db.Find(&space)
-		c.JSON(http.StatusOK, space)
+		if guid := c.Query("guid"); guid != "" {
+		    var space model.Space
+		    query := &model.Space{
+		      SpaceData: model.SpaceData{Guid: guid},
+		    }
+			  db.Where(&query).First(&space)
+			  c.JSON(http.StatusOK, space)
+			} else {
+			  var space []model.Space
+			  db.Find(&space)
+			  c.JSON(http.StatusOK, space)
+			}
 	})
 
 	// GET /space/:id
@@ -456,9 +516,11 @@ func InstallSpaceRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallSpaceMembershipRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /space_membership
 	// GET all space_membership
 	router.GET("/space_membership", func(c *gin.Context) {
@@ -483,9 +545,11 @@ func InstallSpaceMembershipRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallSpaceModuleRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /space_module
 	// GET all space_module
 	router.GET("/space_module", func(c *gin.Context) {
@@ -510,9 +574,11 @@ func InstallSpaceModuleRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallSpaceSettingRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /space_setting
 	// GET all space_setting
 	router.GET("/space_setting", func(c *gin.Context) {
@@ -537,9 +603,11 @@ func InstallSpaceSettingRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUrlOembedRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /url_oembed
 	// GET all url_oembed
 	router.GET("/url_oembed", func(c *gin.Context) {
@@ -564,15 +632,26 @@ func InstallUrlOembedRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user
 	// GET all user
 	router.GET("/user", func(c *gin.Context) {
-		var user []model.User
-		db.Find(&user)
-		c.JSON(http.StatusOK, user)
+		if guid := c.Query("guid"); guid != "" {
+		    var user model.User
+		    query := &model.User{
+		      UserData: model.UserData{Guid: guid},
+		    }
+			  db.Where(&query).First(&user)
+			  c.JSON(http.StatusOK, user)
+			} else {
+			  var user []model.User
+			  db.Find(&user)
+			  c.JSON(http.StatusOK, user)
+			}
 	})
 
 	// GET /user/:id
@@ -591,9 +670,11 @@ func InstallUserRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserFollowRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user_follow
 	// GET all user_follow
 	router.GET("/user_follow", func(c *gin.Context) {
@@ -618,9 +699,11 @@ func InstallUserFollowRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserHttpSessionRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user_http_session
 	// GET all user_http_session
 	router.GET("/user_http_session", func(c *gin.Context) {
@@ -645,9 +728,11 @@ func InstallUserHttpSessionRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserInviteRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user_invite
 	// GET all user_invite
 	router.GET("/user_invite", func(c *gin.Context) {
@@ -672,9 +757,11 @@ func InstallUserInviteRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserMentioningRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user_mentioning
 	// GET all user_mentioning
 	router.GET("/user_mentioning", func(c *gin.Context) {
@@ -699,9 +786,11 @@ func InstallUserMentioningRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserModuleRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user_module
 	// GET all user_module
 	router.GET("/user_module", func(c *gin.Context) {
@@ -726,9 +815,11 @@ func InstallUserModuleRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserPasswordRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user_password
 	// GET all user_password
 	router.GET("/user_password", func(c *gin.Context) {
@@ -753,9 +844,11 @@ func InstallUserPasswordRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallUserSettingRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /user_setting
 	// GET all user_setting
 	router.GET("/user_setting", func(c *gin.Context) {
@@ -780,9 +873,11 @@ func InstallUserSettingRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallWallRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /wall
 	// GET all wall
 	router.GET("/wall", func(c *gin.Context) {
@@ -807,9 +902,11 @@ func InstallWallRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
 
 func InstallWallEntryRouter(db gorm.DB, router *gin.Engine) {
+
 	// GET /wall_entry
 	// GET all wall_entry
 	router.GET("/wall_entry", func(c *gin.Context) {
@@ -834,4 +931,5 @@ func InstallWallEntryRouter(db gorm.DB, router *gin.Engine) {
 			c.AbortWithError(http.StatusBadRequest, err)
 		}
 	})
+
 }
