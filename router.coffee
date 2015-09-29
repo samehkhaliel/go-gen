@@ -28,6 +28,7 @@ listTables = ->
       writeRouterMethod t
       capitalizeTables.push(S(t).classify().capitalize().value())
     )
+    fs.writeFile './routers/installRouter.go', ''
     file = fs.readFileSync './installRouter.ejs', 'utf8'
     data = ejs.render(file, {t: capitalizeTables}, null)
     fs.appendFile './routers/installRouter.go', data
@@ -60,6 +61,7 @@ traceTable = (attribute) ->
       return false
 
 writeRouterMethod = (tableName) ->
+  fs.writeFile './routers/routers.go', ''
   query "describe humhub.#{tableName}", (rows, fields) ->
     table = new Table(tableName)
 
@@ -76,6 +78,6 @@ writeRouterMethod = (tableName) ->
 
     file = fs.readFileSync './routerTemplate.ejs', 'utf8'
     data = ejs.render(file, table, null)
-    fs.appendFile './routers/routers.go', data, null
+    fs.appendFile './routers/routers.go', data
 
 listTables()

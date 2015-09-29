@@ -1,6 +1,6 @@
 
 type <%= name %>Id struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type <%= name %>Data struct {<% attributes.forEach(function(attr){ %>

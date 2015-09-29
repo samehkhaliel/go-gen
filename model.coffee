@@ -76,6 +76,9 @@ writeIntoFile = (data) ->
 ###
 
 writeTableStruct = (tableName) ->
+
+  fs.writeFile './models/models.go', ''
+
   query "describe humhub.#{tableName}", (rows, fields) ->
     table = new Table(S(tableName).classify().capitalize().value())
 
@@ -110,7 +113,7 @@ writeTableStruct = (tableName) ->
           table.addAttribtue(attribute, modelType, jsonAttribute)
 
     file = fs.readFileSync './modelTemplate.ejs', 'utf8'
-    data = ejs.render(file, table, null)
+    data = ejs.render(file, table)
 
     fs.appendFile './models/models.go', data
 

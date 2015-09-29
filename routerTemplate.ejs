@@ -7,4 +7,21 @@ func Install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
 		db.Find(&<%=name%>)
 		c.JSON(http.StatusOK, <%=name%>)
 	})
+
+	// GET /<%=name%>/:id
+	// GET <%=name%> by id
+	router.GET("/<%=name%>/:id", func(c *gin.Context) {
+		_id := c.Param("id")
+		if id, err := strconv.ParseUint(_id, 10, 64); err == nil {
+			var <%=name%> model.<%=capitalizeName%>
+			query := &model.<%=capitalizeName%>{
+				<%=capitalizeName%>Id: model.<%=capitalizeName%>Id{Id: id},
+			}
+			db.Where(&query).First(&<%=name%>)
+			c.JSON(http.StatusOK, <%=name%>)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
 }

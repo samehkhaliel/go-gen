@@ -1,6 +1,6 @@
 
 type ActivityId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type ActivityData struct {
@@ -17,7 +17,7 @@ type Activity struct {
 }
 
 type CommentId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type CommentData struct {
@@ -34,7 +34,7 @@ type Comment struct {
 }
 
 type ContentId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type ContentData struct {
@@ -55,7 +55,7 @@ type Content struct {
 }
 
 type FileId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type FileData struct {
@@ -75,7 +75,7 @@ type File struct {
 }
 
 type GroupId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type GroupData struct {
@@ -94,7 +94,7 @@ type Group struct {
 }
 
 type GroupAdminId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type GroupAdminData struct {
@@ -109,7 +109,7 @@ type GroupAdmin struct {
 }
 
 type LikeId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type LikeData struct {
@@ -125,7 +125,7 @@ type Like struct {
 }
 
 type LoggingId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type LoggingData struct {
@@ -141,7 +141,7 @@ type Logging struct {
 }
 
 type MigrationId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type MigrationData struct {
@@ -156,7 +156,7 @@ type Migration struct {
 }
 
 type ModuleEnabledId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type ModuleEnabledData struct {
@@ -169,7 +169,7 @@ type ModuleEnabled struct {
 }
 
 type NotificationId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type NotificationData struct {
@@ -192,7 +192,7 @@ type Notification struct {
 }
 
 type PostId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type PostData struct {
@@ -208,7 +208,7 @@ type Post struct {
 }
 
 type ProfileId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type ProfileData struct {
@@ -251,7 +251,7 @@ type Profile struct {
 }
 
 type ProfileFieldId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type ProfileFieldData struct {
@@ -279,7 +279,7 @@ type ProfileField struct {
 }
 
 type ProfileFieldCategoryId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type ProfileFieldCategoryData struct {
@@ -299,7 +299,7 @@ type ProfileFieldCategory struct {
 }
 
 type SettingId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type SettingData struct {
@@ -316,7 +316,7 @@ type Setting struct {
 }
 
 type SpaceId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type SpaceData struct {
@@ -340,7 +340,7 @@ type Space struct {
 }
 
 type SpaceMembershipId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type SpaceMembershipData struct {
@@ -362,7 +362,7 @@ type SpaceMembership struct {
 }
 
 type SpaceModuleId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type SpaceModuleData struct {
@@ -377,7 +377,7 @@ type SpaceModule struct {
 }
 
 type SpaceSettingId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type SpaceSettingData struct {
@@ -394,7 +394,7 @@ type SpaceSetting struct {
 }
 
 type UrlOembedId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UrlOembedData struct {
@@ -408,7 +408,7 @@ type UrlOembed struct {
 }
 
 type UserId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserData struct {
@@ -434,7 +434,7 @@ type User struct {
 }
 
 type UserFollowId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserFollowData struct {
@@ -450,7 +450,7 @@ type UserFollow struct {
 }
 
 type UserHttpSessionId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserHttpSessionData struct {
@@ -465,7 +465,7 @@ type UserHttpSession struct {
 }
 
 type UserInviteId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserInviteData struct {
@@ -484,7 +484,7 @@ type UserInvite struct {
 }
 
 type UserMentioningId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserMentioningData struct {
@@ -499,7 +499,7 @@ type UserMentioning struct {
 }
 
 type UserModuleId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserModuleData struct {
@@ -514,7 +514,7 @@ type UserModule struct {
 }
 
 type UserPasswordId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserPasswordData struct {
@@ -531,7 +531,7 @@ type UserPassword struct {
 }
 
 type UserSettingId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type UserSettingData struct {
@@ -548,7 +548,7 @@ type UserSetting struct {
 }
 
 type WallId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type WallData struct {
@@ -563,7 +563,7 @@ type Wall struct {
 }
 
 type WallEntryId struct {
-    Id uint `json:"id" sql:"AUTO_INCREMENT"`
+    Id uint64 `json:"id" sql:"AUTO_INCREMENT"`
 }
 
 type WallEntryData struct {
