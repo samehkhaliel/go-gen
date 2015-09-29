@@ -39,4 +39,22 @@ func Install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /<%=name%>
+	// POST new <%=name%> to database
+	router.POST("/<%=name%>", func(c *gin.Context) {
+		var <%=name%>Post model.<%=capitalizeName%>Post
+		if err := c.BindJSON(&<%=name%>Post); err == nil {
+			<%=name%> := &model.<%=capitalizeName%>{
+				<%=capitalizeName%>Data: <%=name%>Post.<%=capitalizeName%>Data,<% if(trace) { %>
+				Trace: <%=name%>Post.Trace,<% } %>
+			}<% var foundGuid = false; attributes.forEach(function(attr) { if (attr.name == "Guid") { foundGuid = true; } }) %>
+			<% if (foundGuid) { %><%=name%>.Guid = uuid.NewV4().String()<% } %>
+			db.Create(&<%=name%>)
+			c.JSON(http.StatusOK, <%=name%>)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }

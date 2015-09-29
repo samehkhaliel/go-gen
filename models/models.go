@@ -10,6 +10,11 @@ type ActivityData struct {
     ObjectId string `json:"objectId"`
 }
 
+type ActivityPost struct {
+  ActivityData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type Activity struct {
     ActivityId
     ActivityData `json:"data"`
@@ -25,6 +30,11 @@ type CommentData struct {
     ObjectModel string `json:"objectModel"`
     ObjectId uint `json:"objectId"`
     SpaceId uint `json:"spaceId"`
+}
+
+type CommentPost struct {
+  CommentData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type Comment struct {
@@ -48,6 +58,11 @@ type ContentData struct {
     UserId uint `json:"userId"`
 }
 
+type ContentPost struct {
+  ContentData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type Content struct {
     ContentId
     ContentData `json:"data"`
@@ -66,6 +81,11 @@ type FileData struct {
     Title string `json:"title"`
     MimeType string `json:"mimeType"`
     Size string `json:"size"`
+}
+
+type FilePost struct {
+  FileData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type File struct {
@@ -87,6 +107,11 @@ type GroupData struct {
     CanCreatePrivateSpaces uint `json:"canCreatePrivateSpaces"`
 }
 
+type GroupPost struct {
+  GroupData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type Group struct {
     GroupId
     GroupData `json:"data"`
@@ -100,6 +125,11 @@ type GroupAdminId struct {
 type GroupAdminData struct {
     UserId uint `json:"userId"`
     GroupId uint `json:"groupId"`
+}
+
+type GroupAdminPost struct {
+  GroupAdminData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type GroupAdmin struct {
@@ -116,6 +146,11 @@ type LikeData struct {
     TargetUserId uint `json:"targetUserId"`
     ObjectModel string `json:"objectModel"`
     ObjectId uint `json:"objectId"`
+}
+
+type LikePost struct {
+  LikeData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type Like struct {
@@ -135,6 +170,10 @@ type LoggingData struct {
     Message string `json:"message"`
 }
 
+type LoggingPost struct {
+  LoggingData `json:"data"`
+}
+
 type Logging struct {
     LoggingId
     LoggingData `json:"data"`
@@ -150,6 +189,10 @@ type MigrationData struct {
     Module string `json:"module"`
 }
 
+type MigrationPost struct {
+  MigrationData `json:"data"`
+}
+
 type Migration struct {
     MigrationId
     MigrationData `json:"data"`
@@ -161,6 +204,10 @@ type ModuleEnabledId struct {
 
 type ModuleEnabledData struct {
     ModuleId string `json:"moduleId"`
+}
+
+type ModuleEnabledPost struct {
+  ModuleEnabledData `json:"data"`
 }
 
 type ModuleEnabled struct {
@@ -185,6 +232,11 @@ type NotificationData struct {
     DesktopNotified uint `json:"desktopNotified"`
 }
 
+type NotificationPost struct {
+  NotificationData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type Notification struct {
     NotificationId
     NotificationData `json:"data"`
@@ -199,6 +251,11 @@ type PostData struct {
     Message2trash string `json:"message2trash"`
     Message string `json:"message"`
     Url string `json:"url"`
+}
+
+type PostPost struct {
+  PostData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type Post struct {
@@ -245,6 +302,10 @@ type ProfileData struct {
     UrlTwitter string `json:"urlTwitter"`
 }
 
+type ProfilePost struct {
+  ProfileData `json:"data"`
+}
+
 type Profile struct {
     ProfileId
     ProfileData `json:"data"`
@@ -272,6 +333,11 @@ type ProfileFieldData struct {
     IsSystem uint `json:"isSystem"`
 }
 
+type ProfileFieldPost struct {
+  ProfileFieldData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type ProfileField struct {
     ProfileFieldId
     ProfileFieldData `json:"data"`
@@ -292,6 +358,11 @@ type ProfileFieldCategoryData struct {
     IsSystem uint `json:"isSystem"`
 }
 
+type ProfileFieldCategoryPost struct {
+  ProfileFieldCategoryData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type ProfileFieldCategory struct {
     ProfileFieldCategoryId
     ProfileFieldCategoryData `json:"data"`
@@ -307,6 +378,11 @@ type SettingData struct {
     Value string `json:"value"`
     ValueText string `json:"valueText"`
     ModuleId string `json:"moduleId"`
+}
+
+type SettingPost struct {
+  SettingData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type Setting struct {
@@ -333,6 +409,11 @@ type SpaceData struct {
     AutoAddNewMembers uint `json:"autoAddNewMembers"`
 }
 
+type SpacePost struct {
+  SpaceData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type Space struct {
     SpaceId
     SpaceData `json:"data"`
@@ -355,6 +436,11 @@ type SpaceMembershipData struct {
     ShareRole uint `json:"shareRole"`
 }
 
+type SpaceMembershipPost struct {
+  SpaceMembershipData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type SpaceMembership struct {
     SpaceMembershipId
     SpaceMembershipData `json:"data"`
@@ -369,6 +455,10 @@ type SpaceModuleData struct {
     ModuleId string `json:"moduleId"`
     SpaceId uint `json:"spaceId"`
     State uint `json:"state"`
+}
+
+type SpaceModulePost struct {
+  SpaceModuleData `json:"data"`
 }
 
 type SpaceModule struct {
@@ -387,6 +477,11 @@ type SpaceSettingData struct {
     Value string `json:"value"`
 }
 
+type SpaceSettingPost struct {
+  SpaceSettingData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type SpaceSetting struct {
     SpaceSettingId
     SpaceSettingData `json:"data"`
@@ -400,6 +495,10 @@ type UrlOembedId struct {
 type UrlOembedData struct {
     Url string `json:"url"`
     Preview string `json:"preview"`
+}
+
+type UrlOembedPost struct {
+  UrlOembedData `json:"data"`
 }
 
 type UrlOembed struct {
@@ -427,6 +526,11 @@ type UserData struct {
     Visibility uint `json:"visibility"`
 }
 
+type UserPost struct {
+  UserData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type User struct {
     UserId
     UserData `json:"data"`
@@ -444,6 +548,10 @@ type UserFollowData struct {
     SendNotifications uint `json:"sendNotifications"`
 }
 
+type UserFollowPost struct {
+  UserFollowData `json:"data"`
+}
+
 type UserFollow struct {
     UserFollowId
     UserFollowData `json:"data"`
@@ -457,6 +565,10 @@ type UserHttpSessionData struct {
     Expire uint `json:"expire"`
     UserId uint `json:"userId"`
     Data string `json:"data"`
+}
+
+type UserHttpSessionPost struct {
+  UserHttpSessionData `json:"data"`
 }
 
 type UserHttpSession struct {
@@ -477,6 +589,11 @@ type UserInviteData struct {
     Language string `json:"language"`
 }
 
+type UserInvitePost struct {
+  UserInviteData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type UserInvite struct {
     UserInviteId
     UserInviteData `json:"data"`
@@ -491,6 +608,10 @@ type UserMentioningData struct {
     ObjectModel string `json:"objectModel"`
     ObjectId uint `json:"objectId"`
     UserId uint `json:"userId"`
+}
+
+type UserMentioningPost struct {
+  UserMentioningData `json:"data"`
 }
 
 type UserMentioning struct {
@@ -508,6 +629,10 @@ type UserModuleData struct {
     State uint `json:"state"`
 }
 
+type UserModulePost struct {
+  UserModuleData `json:"data"`
+}
+
 type UserModule struct {
     UserModuleId
     UserModuleData `json:"data"`
@@ -522,6 +647,11 @@ type UserPasswordData struct {
     Algorithm string `json:"algorithm"`
     Password string `json:"password"`
     Salt string `json:"salt"`
+}
+
+type UserPasswordPost struct {
+  UserPasswordData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type UserPassword struct {
@@ -541,6 +671,11 @@ type UserSettingData struct {
     Value string `json:"value"`
 }
 
+type UserSettingPost struct {
+  UserSettingData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type UserSetting struct {
     UserSettingId
     UserSettingData `json:"data"`
@@ -556,6 +691,11 @@ type WallData struct {
     ObjectId uint `json:"objectId"`
 }
 
+type WallPost struct {
+  WallData `json:"data"`
+  Trace   `json:"trace"`
+}
+
 type Wall struct {
     WallId
     WallData `json:"data"`
@@ -569,6 +709,11 @@ type WallEntryId struct {
 type WallEntryData struct {
     WallId uint `json:"wallId"`
     ContentId uint `json:"contentId"`
+}
+
+type WallEntryPost struct {
+  WallEntryData `json:"data"`
+  Trace   `json:"trace"`
 }
 
 type WallEntry struct {

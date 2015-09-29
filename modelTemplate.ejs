@@ -7,6 +7,11 @@ type <%= name %>Data struct {<% attributes.forEach(function(attr){ %>
     <%= attr.name %> <%= attr.type %> `json:"<%= attr.tag %>"`<% }) %>
 }
 
+type <%= name %>Post struct {
+  <%= name %>Data `json:"data"`<% if(trace) {%>
+  Trace   `json:"trace"`<% } %>
+}
+
 type <%= name %> struct {
     <%= name %>Id
     <%= name %>Data `json:"data"`<% if(trace) {%>

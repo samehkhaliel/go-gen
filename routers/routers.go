@@ -6,7 +6,7 @@ func InstallActivityRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/activity", func(c *gin.Context) {
 		var activity []model.Activity
 		db.Find(&activity)
-		c.JSON(http.StatusOK, activity)
+		c.JSON(http.StatusOK, activity) 
 	})
 
 	// GET /activity/:id
@@ -26,6 +26,24 @@ func InstallActivityRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /activity
+	// POST new activity to database
+	router.POST("/activity", func(c *gin.Context) {
+		var activityPost model.ActivityPost
+		if err := c.BindJSON(&activityPost); err == nil {
+			activity := &model.Activity{
+				ActivityData: activityPost.ActivityData,
+				Trace: activityPost.Trace,
+			}
+			
+			db.Create(&activity)
+			c.JSON(http.StatusOK, activity)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallCommentRouter(db gorm.DB, router *gin.Engine) {
@@ -35,7 +53,7 @@ func InstallCommentRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/comment", func(c *gin.Context) {
 		var comment []model.Comment
 		db.Find(&comment)
-		c.JSON(http.StatusOK, comment)
+		c.JSON(http.StatusOK, comment) 
 	})
 
 	// GET /comment/:id
@@ -48,6 +66,24 @@ func InstallCommentRouter(db gorm.DB, router *gin.Engine) {
 				CommentId: model.CommentId{Id: id},
 			}
 			db.Where(&query).First(&comment)
+			c.JSON(http.StatusOK, comment)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+	// POST /comment
+	// POST new comment to database
+	router.POST("/comment", func(c *gin.Context) {
+		var commentPost model.CommentPost
+		if err := c.BindJSON(&commentPost); err == nil {
+			comment := &model.Comment{
+				CommentData: commentPost.CommentData,
+				Trace: commentPost.Trace,
+			}
+			
+			db.Create(&comment)
 			c.JSON(http.StatusOK, comment)
 		} else {
 			log.Print(err)
@@ -93,6 +129,24 @@ func InstallContentRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /content
+	// POST new content to database
+	router.POST("/content", func(c *gin.Context) {
+		var contentPost model.ContentPost
+		if err := c.BindJSON(&contentPost); err == nil {
+			content := &model.Content{
+				ContentData: contentPost.ContentData,
+				Trace: contentPost.Trace,
+			}
+			content.Guid = uuid.NewV4().String()
+			db.Create(&content)
+			c.JSON(http.StatusOK, content)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallFileRouter(db gorm.DB, router *gin.Engine) {
@@ -131,6 +185,24 @@ func InstallFileRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /file
+	// POST new file to database
+	router.POST("/file", func(c *gin.Context) {
+		var filePost model.FilePost
+		if err := c.BindJSON(&filePost); err == nil {
+			file := &model.File{
+				FileData: filePost.FileData,
+				Trace: filePost.Trace,
+			}
+			file.Guid = uuid.NewV4().String()
+			db.Create(&file)
+			c.JSON(http.StatusOK, file)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallGroupRouter(db gorm.DB, router *gin.Engine) {
@@ -140,7 +212,7 @@ func InstallGroupRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/group", func(c *gin.Context) {
 		var group []model.Group
 		db.Find(&group)
-		c.JSON(http.StatusOK, group)
+		c.JSON(http.StatusOK, group) 
 	})
 
 	// GET /group/:id
@@ -160,6 +232,24 @@ func InstallGroupRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /group
+	// POST new group to database
+	router.POST("/group", func(c *gin.Context) {
+		var groupPost model.GroupPost
+		if err := c.BindJSON(&groupPost); err == nil {
+			group := &model.Group{
+				GroupData: groupPost.GroupData,
+				Trace: groupPost.Trace,
+			}
+			
+			db.Create(&group)
+			c.JSON(http.StatusOK, group)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallGroupAdminRouter(db gorm.DB, router *gin.Engine) {
@@ -169,7 +259,7 @@ func InstallGroupAdminRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/group_admin", func(c *gin.Context) {
 		var group_admin []model.GroupAdmin
 		db.Find(&group_admin)
-		c.JSON(http.StatusOK, group_admin)
+		c.JSON(http.StatusOK, group_admin) 
 	})
 
 	// GET /group_admin/:id
@@ -189,6 +279,24 @@ func InstallGroupAdminRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /group_admin
+	// POST new group_admin to database
+	router.POST("/group_admin", func(c *gin.Context) {
+		var group_adminPost model.GroupAdminPost
+		if err := c.BindJSON(&group_adminPost); err == nil {
+			group_admin := &model.GroupAdmin{
+				GroupAdminData: group_adminPost.GroupAdminData,
+				Trace: group_adminPost.Trace,
+			}
+			
+			db.Create(&group_admin)
+			c.JSON(http.StatusOK, group_admin)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallLikeRouter(db gorm.DB, router *gin.Engine) {
@@ -198,7 +306,7 @@ func InstallLikeRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/like", func(c *gin.Context) {
 		var like []model.Like
 		db.Find(&like)
-		c.JSON(http.StatusOK, like)
+		c.JSON(http.StatusOK, like) 
 	})
 
 	// GET /like/:id
@@ -218,6 +326,24 @@ func InstallLikeRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /like
+	// POST new like to database
+	router.POST("/like", func(c *gin.Context) {
+		var likePost model.LikePost
+		if err := c.BindJSON(&likePost); err == nil {
+			like := &model.Like{
+				LikeData: likePost.LikeData,
+				Trace: likePost.Trace,
+			}
+			
+			db.Create(&like)
+			c.JSON(http.StatusOK, like)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallLoggingRouter(db gorm.DB, router *gin.Engine) {
@@ -227,7 +353,7 @@ func InstallLoggingRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/logging", func(c *gin.Context) {
 		var logging []model.Logging
 		db.Find(&logging)
-		c.JSON(http.StatusOK, logging)
+		c.JSON(http.StatusOK, logging) 
 	})
 
 	// GET /logging/:id
@@ -247,6 +373,23 @@ func InstallLoggingRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /logging
+	// POST new logging to database
+	router.POST("/logging", func(c *gin.Context) {
+		var loggingPost model.LoggingPost
+		if err := c.BindJSON(&loggingPost); err == nil {
+			logging := &model.Logging{
+				LoggingData: loggingPost.LoggingData,
+			}
+			
+			db.Create(&logging)
+			c.JSON(http.StatusOK, logging)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallMigrationRouter(db gorm.DB, router *gin.Engine) {
@@ -256,7 +399,7 @@ func InstallMigrationRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/migration", func(c *gin.Context) {
 		var migration []model.Migration
 		db.Find(&migration)
-		c.JSON(http.StatusOK, migration)
+		c.JSON(http.StatusOK, migration) 
 	})
 
 	// GET /migration/:id
@@ -276,6 +419,23 @@ func InstallMigrationRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /migration
+	// POST new migration to database
+	router.POST("/migration", func(c *gin.Context) {
+		var migrationPost model.MigrationPost
+		if err := c.BindJSON(&migrationPost); err == nil {
+			migration := &model.Migration{
+				MigrationData: migrationPost.MigrationData,
+			}
+			
+			db.Create(&migration)
+			c.JSON(http.StatusOK, migration)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallModuleEnabledRouter(db gorm.DB, router *gin.Engine) {
@@ -285,7 +445,7 @@ func InstallModuleEnabledRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/module_enabled", func(c *gin.Context) {
 		var module_enabled []model.ModuleEnabled
 		db.Find(&module_enabled)
-		c.JSON(http.StatusOK, module_enabled)
+		c.JSON(http.StatusOK, module_enabled) 
 	})
 
 	// GET /module_enabled/:id
@@ -305,6 +465,23 @@ func InstallModuleEnabledRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /module_enabled
+	// POST new module_enabled to database
+	router.POST("/module_enabled", func(c *gin.Context) {
+		var module_enabledPost model.ModuleEnabledPost
+		if err := c.BindJSON(&module_enabledPost); err == nil {
+			module_enabled := &model.ModuleEnabled{
+				ModuleEnabledData: module_enabledPost.ModuleEnabledData,
+			}
+			
+			db.Create(&module_enabled)
+			c.JSON(http.StatusOK, module_enabled)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallNotificationRouter(db gorm.DB, router *gin.Engine) {
@@ -314,7 +491,7 @@ func InstallNotificationRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/notification", func(c *gin.Context) {
 		var notification []model.Notification
 		db.Find(&notification)
-		c.JSON(http.StatusOK, notification)
+		c.JSON(http.StatusOK, notification) 
 	})
 
 	// GET /notification/:id
@@ -334,6 +511,24 @@ func InstallNotificationRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /notification
+	// POST new notification to database
+	router.POST("/notification", func(c *gin.Context) {
+		var notificationPost model.NotificationPost
+		if err := c.BindJSON(&notificationPost); err == nil {
+			notification := &model.Notification{
+				NotificationData: notificationPost.NotificationData,
+				Trace: notificationPost.Trace,
+			}
+			
+			db.Create(&notification)
+			c.JSON(http.StatusOK, notification)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallPostRouter(db gorm.DB, router *gin.Engine) {
@@ -343,7 +538,7 @@ func InstallPostRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/post", func(c *gin.Context) {
 		var post []model.Post
 		db.Find(&post)
-		c.JSON(http.StatusOK, post)
+		c.JSON(http.StatusOK, post) 
 	})
 
 	// GET /post/:id
@@ -363,6 +558,24 @@ func InstallPostRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /post
+	// POST new post to database
+	router.POST("/post", func(c *gin.Context) {
+		var postPost model.PostPost
+		if err := c.BindJSON(&postPost); err == nil {
+			post := &model.Post{
+				PostData: postPost.PostData,
+				Trace: postPost.Trace,
+			}
+			
+			db.Create(&post)
+			c.JSON(http.StatusOK, post)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallProfileRouter(db gorm.DB, router *gin.Engine) {
@@ -372,7 +585,7 @@ func InstallProfileRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/profile", func(c *gin.Context) {
 		var profile []model.Profile
 		db.Find(&profile)
-		c.JSON(http.StatusOK, profile)
+		c.JSON(http.StatusOK, profile) 
 	})
 
 	// GET /profile/:id
@@ -392,6 +605,23 @@ func InstallProfileRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /profile
+	// POST new profile to database
+	router.POST("/profile", func(c *gin.Context) {
+		var profilePost model.ProfilePost
+		if err := c.BindJSON(&profilePost); err == nil {
+			profile := &model.Profile{
+				ProfileData: profilePost.ProfileData,
+			}
+			
+			db.Create(&profile)
+			c.JSON(http.StatusOK, profile)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallProfileFieldRouter(db gorm.DB, router *gin.Engine) {
@@ -401,7 +631,7 @@ func InstallProfileFieldRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/profile_field", func(c *gin.Context) {
 		var profile_field []model.ProfileField
 		db.Find(&profile_field)
-		c.JSON(http.StatusOK, profile_field)
+		c.JSON(http.StatusOK, profile_field) 
 	})
 
 	// GET /profile_field/:id
@@ -421,6 +651,24 @@ func InstallProfileFieldRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /profile_field
+	// POST new profile_field to database
+	router.POST("/profile_field", func(c *gin.Context) {
+		var profile_fieldPost model.ProfileFieldPost
+		if err := c.BindJSON(&profile_fieldPost); err == nil {
+			profile_field := &model.ProfileField{
+				ProfileFieldData: profile_fieldPost.ProfileFieldData,
+				Trace: profile_fieldPost.Trace,
+			}
+			
+			db.Create(&profile_field)
+			c.JSON(http.StatusOK, profile_field)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallProfileFieldCategoryRouter(db gorm.DB, router *gin.Engine) {
@@ -430,7 +678,7 @@ func InstallProfileFieldCategoryRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/profile_field_category", func(c *gin.Context) {
 		var profile_field_category []model.ProfileFieldCategory
 		db.Find(&profile_field_category)
-		c.JSON(http.StatusOK, profile_field_category)
+		c.JSON(http.StatusOK, profile_field_category) 
 	})
 
 	// GET /profile_field_category/:id
@@ -450,6 +698,24 @@ func InstallProfileFieldCategoryRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /profile_field_category
+	// POST new profile_field_category to database
+	router.POST("/profile_field_category", func(c *gin.Context) {
+		var profile_field_categoryPost model.ProfileFieldCategoryPost
+		if err := c.BindJSON(&profile_field_categoryPost); err == nil {
+			profile_field_category := &model.ProfileFieldCategory{
+				ProfileFieldCategoryData: profile_field_categoryPost.ProfileFieldCategoryData,
+				Trace: profile_field_categoryPost.Trace,
+			}
+			
+			db.Create(&profile_field_category)
+			c.JSON(http.StatusOK, profile_field_category)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallSettingRouter(db gorm.DB, router *gin.Engine) {
@@ -459,7 +725,7 @@ func InstallSettingRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/setting", func(c *gin.Context) {
 		var setting []model.Setting
 		db.Find(&setting)
-		c.JSON(http.StatusOK, setting)
+		c.JSON(http.StatusOK, setting) 
 	})
 
 	// GET /setting/:id
@@ -472,6 +738,24 @@ func InstallSettingRouter(db gorm.DB, router *gin.Engine) {
 				SettingId: model.SettingId{Id: id},
 			}
 			db.Where(&query).First(&setting)
+			c.JSON(http.StatusOK, setting)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+	// POST /setting
+	// POST new setting to database
+	router.POST("/setting", func(c *gin.Context) {
+		var settingPost model.SettingPost
+		if err := c.BindJSON(&settingPost); err == nil {
+			setting := &model.Setting{
+				SettingData: settingPost.SettingData,
+				Trace: settingPost.Trace,
+			}
+			
+			db.Create(&setting)
 			c.JSON(http.StatusOK, setting)
 		} else {
 			log.Print(err)
@@ -517,6 +801,24 @@ func InstallSpaceRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /space
+	// POST new space to database
+	router.POST("/space", func(c *gin.Context) {
+		var spacePost model.SpacePost
+		if err := c.BindJSON(&spacePost); err == nil {
+			space := &model.Space{
+				SpaceData: spacePost.SpaceData,
+				Trace: spacePost.Trace,
+			}
+			space.Guid = uuid.NewV4().String()
+			db.Create(&space)
+			c.JSON(http.StatusOK, space)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallSpaceMembershipRouter(db gorm.DB, router *gin.Engine) {
@@ -526,7 +828,7 @@ func InstallSpaceMembershipRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/space_membership", func(c *gin.Context) {
 		var space_membership []model.SpaceMembership
 		db.Find(&space_membership)
-		c.JSON(http.StatusOK, space_membership)
+		c.JSON(http.StatusOK, space_membership) 
 	})
 
 	// GET /space_membership/:id
@@ -546,6 +848,24 @@ func InstallSpaceMembershipRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /space_membership
+	// POST new space_membership to database
+	router.POST("/space_membership", func(c *gin.Context) {
+		var space_membershipPost model.SpaceMembershipPost
+		if err := c.BindJSON(&space_membershipPost); err == nil {
+			space_membership := &model.SpaceMembership{
+				SpaceMembershipData: space_membershipPost.SpaceMembershipData,
+				Trace: space_membershipPost.Trace,
+			}
+			
+			db.Create(&space_membership)
+			c.JSON(http.StatusOK, space_membership)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallSpaceModuleRouter(db gorm.DB, router *gin.Engine) {
@@ -555,7 +875,7 @@ func InstallSpaceModuleRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/space_module", func(c *gin.Context) {
 		var space_module []model.SpaceModule
 		db.Find(&space_module)
-		c.JSON(http.StatusOK, space_module)
+		c.JSON(http.StatusOK, space_module) 
 	})
 
 	// GET /space_module/:id
@@ -575,6 +895,23 @@ func InstallSpaceModuleRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /space_module
+	// POST new space_module to database
+	router.POST("/space_module", func(c *gin.Context) {
+		var space_modulePost model.SpaceModulePost
+		if err := c.BindJSON(&space_modulePost); err == nil {
+			space_module := &model.SpaceModule{
+				SpaceModuleData: space_modulePost.SpaceModuleData,
+			}
+			
+			db.Create(&space_module)
+			c.JSON(http.StatusOK, space_module)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallSpaceSettingRouter(db gorm.DB, router *gin.Engine) {
@@ -584,7 +921,7 @@ func InstallSpaceSettingRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/space_setting", func(c *gin.Context) {
 		var space_setting []model.SpaceSetting
 		db.Find(&space_setting)
-		c.JSON(http.StatusOK, space_setting)
+		c.JSON(http.StatusOK, space_setting) 
 	})
 
 	// GET /space_setting/:id
@@ -604,6 +941,24 @@ func InstallSpaceSettingRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /space_setting
+	// POST new space_setting to database
+	router.POST("/space_setting", func(c *gin.Context) {
+		var space_settingPost model.SpaceSettingPost
+		if err := c.BindJSON(&space_settingPost); err == nil {
+			space_setting := &model.SpaceSetting{
+				SpaceSettingData: space_settingPost.SpaceSettingData,
+				Trace: space_settingPost.Trace,
+			}
+			
+			db.Create(&space_setting)
+			c.JSON(http.StatusOK, space_setting)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUrlOembedRouter(db gorm.DB, router *gin.Engine) {
@@ -613,7 +968,7 @@ func InstallUrlOembedRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/url_oembed", func(c *gin.Context) {
 		var url_oembed []model.UrlOembed
 		db.Find(&url_oembed)
-		c.JSON(http.StatusOK, url_oembed)
+		c.JSON(http.StatusOK, url_oembed) 
 	})
 
 	// GET /url_oembed/:id
@@ -626,6 +981,23 @@ func InstallUrlOembedRouter(db gorm.DB, router *gin.Engine) {
 				UrlOembedId: model.UrlOembedId{Id: id},
 			}
 			db.Where(&query).First(&url_oembed)
+			c.JSON(http.StatusOK, url_oembed)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+	// POST /url_oembed
+	// POST new url_oembed to database
+	router.POST("/url_oembed", func(c *gin.Context) {
+		var url_oembedPost model.UrlOembedPost
+		if err := c.BindJSON(&url_oembedPost); err == nil {
+			url_oembed := &model.UrlOembed{
+				UrlOembedData: url_oembedPost.UrlOembedData,
+			}
+			
+			db.Create(&url_oembed)
 			c.JSON(http.StatusOK, url_oembed)
 		} else {
 			log.Print(err)
@@ -671,6 +1043,24 @@ func InstallUserRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user
+	// POST new user to database
+	router.POST("/user", func(c *gin.Context) {
+		var userPost model.UserPost
+		if err := c.BindJSON(&userPost); err == nil {
+			user := &model.User{
+				UserData: userPost.UserData,
+				Trace: userPost.Trace,
+			}
+			user.Guid = uuid.NewV4().String()
+			db.Create(&user)
+			c.JSON(http.StatusOK, user)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUserFollowRouter(db gorm.DB, router *gin.Engine) {
@@ -680,7 +1070,7 @@ func InstallUserFollowRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/user_follow", func(c *gin.Context) {
 		var user_follow []model.UserFollow
 		db.Find(&user_follow)
-		c.JSON(http.StatusOK, user_follow)
+		c.JSON(http.StatusOK, user_follow) 
 	})
 
 	// GET /user_follow/:id
@@ -700,6 +1090,23 @@ func InstallUserFollowRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user_follow
+	// POST new user_follow to database
+	router.POST("/user_follow", func(c *gin.Context) {
+		var user_followPost model.UserFollowPost
+		if err := c.BindJSON(&user_followPost); err == nil {
+			user_follow := &model.UserFollow{
+				UserFollowData: user_followPost.UserFollowData,
+			}
+			
+			db.Create(&user_follow)
+			c.JSON(http.StatusOK, user_follow)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUserHttpSessionRouter(db gorm.DB, router *gin.Engine) {
@@ -709,7 +1116,7 @@ func InstallUserHttpSessionRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/user_http_session", func(c *gin.Context) {
 		var user_http_session []model.UserHttpSession
 		db.Find(&user_http_session)
-		c.JSON(http.StatusOK, user_http_session)
+		c.JSON(http.StatusOK, user_http_session) 
 	})
 
 	// GET /user_http_session/:id
@@ -729,6 +1136,23 @@ func InstallUserHttpSessionRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user_http_session
+	// POST new user_http_session to database
+	router.POST("/user_http_session", func(c *gin.Context) {
+		var user_http_sessionPost model.UserHttpSessionPost
+		if err := c.BindJSON(&user_http_sessionPost); err == nil {
+			user_http_session := &model.UserHttpSession{
+				UserHttpSessionData: user_http_sessionPost.UserHttpSessionData,
+			}
+			
+			db.Create(&user_http_session)
+			c.JSON(http.StatusOK, user_http_session)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUserInviteRouter(db gorm.DB, router *gin.Engine) {
@@ -738,7 +1162,7 @@ func InstallUserInviteRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/user_invite", func(c *gin.Context) {
 		var user_invite []model.UserInvite
 		db.Find(&user_invite)
-		c.JSON(http.StatusOK, user_invite)
+		c.JSON(http.StatusOK, user_invite) 
 	})
 
 	// GET /user_invite/:id
@@ -758,6 +1182,24 @@ func InstallUserInviteRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user_invite
+	// POST new user_invite to database
+	router.POST("/user_invite", func(c *gin.Context) {
+		var user_invitePost model.UserInvitePost
+		if err := c.BindJSON(&user_invitePost); err == nil {
+			user_invite := &model.UserInvite{
+				UserInviteData: user_invitePost.UserInviteData,
+				Trace: user_invitePost.Trace,
+			}
+			
+			db.Create(&user_invite)
+			c.JSON(http.StatusOK, user_invite)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUserMentioningRouter(db gorm.DB, router *gin.Engine) {
@@ -767,7 +1209,7 @@ func InstallUserMentioningRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/user_mentioning", func(c *gin.Context) {
 		var user_mentioning []model.UserMentioning
 		db.Find(&user_mentioning)
-		c.JSON(http.StatusOK, user_mentioning)
+		c.JSON(http.StatusOK, user_mentioning) 
 	})
 
 	// GET /user_mentioning/:id
@@ -787,6 +1229,23 @@ func InstallUserMentioningRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user_mentioning
+	// POST new user_mentioning to database
+	router.POST("/user_mentioning", func(c *gin.Context) {
+		var user_mentioningPost model.UserMentioningPost
+		if err := c.BindJSON(&user_mentioningPost); err == nil {
+			user_mentioning := &model.UserMentioning{
+				UserMentioningData: user_mentioningPost.UserMentioningData,
+			}
+			
+			db.Create(&user_mentioning)
+			c.JSON(http.StatusOK, user_mentioning)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUserModuleRouter(db gorm.DB, router *gin.Engine) {
@@ -796,7 +1255,7 @@ func InstallUserModuleRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/user_module", func(c *gin.Context) {
 		var user_module []model.UserModule
 		db.Find(&user_module)
-		c.JSON(http.StatusOK, user_module)
+		c.JSON(http.StatusOK, user_module) 
 	})
 
 	// GET /user_module/:id
@@ -816,6 +1275,23 @@ func InstallUserModuleRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user_module
+	// POST new user_module to database
+	router.POST("/user_module", func(c *gin.Context) {
+		var user_modulePost model.UserModulePost
+		if err := c.BindJSON(&user_modulePost); err == nil {
+			user_module := &model.UserModule{
+				UserModuleData: user_modulePost.UserModuleData,
+			}
+			
+			db.Create(&user_module)
+			c.JSON(http.StatusOK, user_module)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUserPasswordRouter(db gorm.DB, router *gin.Engine) {
@@ -825,7 +1301,7 @@ func InstallUserPasswordRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/user_password", func(c *gin.Context) {
 		var user_password []model.UserPassword
 		db.Find(&user_password)
-		c.JSON(http.StatusOK, user_password)
+		c.JSON(http.StatusOK, user_password) 
 	})
 
 	// GET /user_password/:id
@@ -845,6 +1321,24 @@ func InstallUserPasswordRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user_password
+	// POST new user_password to database
+	router.POST("/user_password", func(c *gin.Context) {
+		var user_passwordPost model.UserPasswordPost
+		if err := c.BindJSON(&user_passwordPost); err == nil {
+			user_password := &model.UserPassword{
+				UserPasswordData: user_passwordPost.UserPasswordData,
+				Trace: user_passwordPost.Trace,
+			}
+			
+			db.Create(&user_password)
+			c.JSON(http.StatusOK, user_password)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallUserSettingRouter(db gorm.DB, router *gin.Engine) {
@@ -854,7 +1348,7 @@ func InstallUserSettingRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/user_setting", func(c *gin.Context) {
 		var user_setting []model.UserSetting
 		db.Find(&user_setting)
-		c.JSON(http.StatusOK, user_setting)
+		c.JSON(http.StatusOK, user_setting) 
 	})
 
 	// GET /user_setting/:id
@@ -874,6 +1368,24 @@ func InstallUserSettingRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /user_setting
+	// POST new user_setting to database
+	router.POST("/user_setting", func(c *gin.Context) {
+		var user_settingPost model.UserSettingPost
+		if err := c.BindJSON(&user_settingPost); err == nil {
+			user_setting := &model.UserSetting{
+				UserSettingData: user_settingPost.UserSettingData,
+				Trace: user_settingPost.Trace,
+			}
+			
+			db.Create(&user_setting)
+			c.JSON(http.StatusOK, user_setting)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallWallRouter(db gorm.DB, router *gin.Engine) {
@@ -883,7 +1395,7 @@ func InstallWallRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/wall", func(c *gin.Context) {
 		var wall []model.Wall
 		db.Find(&wall)
-		c.JSON(http.StatusOK, wall)
+		c.JSON(http.StatusOK, wall) 
 	})
 
 	// GET /wall/:id
@@ -903,6 +1415,24 @@ func InstallWallRouter(db gorm.DB, router *gin.Engine) {
 		}
 	})
 
+	// POST /wall
+	// POST new wall to database
+	router.POST("/wall", func(c *gin.Context) {
+		var wallPost model.WallPost
+		if err := c.BindJSON(&wallPost); err == nil {
+			wall := &model.Wall{
+				WallData: wallPost.WallData,
+				Trace: wallPost.Trace,
+			}
+			
+			db.Create(&wall)
+			c.JSON(http.StatusOK, wall)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
 }
 
 func InstallWallEntryRouter(db gorm.DB, router *gin.Engine) {
@@ -912,7 +1442,7 @@ func InstallWallEntryRouter(db gorm.DB, router *gin.Engine) {
 	router.GET("/wall_entry", func(c *gin.Context) {
 		var wall_entry []model.WallEntry
 		db.Find(&wall_entry)
-		c.JSON(http.StatusOK, wall_entry)
+		c.JSON(http.StatusOK, wall_entry) 
 	})
 
 	// GET /wall_entry/:id
@@ -925,6 +1455,24 @@ func InstallWallEntryRouter(db gorm.DB, router *gin.Engine) {
 				WallEntryId: model.WallEntryId{Id: id},
 			}
 			db.Where(&query).First(&wall_entry)
+			c.JSON(http.StatusOK, wall_entry)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+	// POST /wall_entry
+	// POST new wall_entry to database
+	router.POST("/wall_entry", func(c *gin.Context) {
+		var wall_entryPost model.WallEntryPost
+		if err := c.BindJSON(&wall_entryPost); err == nil {
+			wall_entry := &model.WallEntry{
+				WallEntryData: wall_entryPost.WallEntryData,
+				Trace: wall_entryPost.Trace,
+			}
+			
+			db.Create(&wall_entry)
 			c.JSON(http.StatusOK, wall_entry)
 		} else {
 			log.Print(err)
