@@ -23,7 +23,14 @@ query = (sql, callback) ->
 listTables = ->
   query 'show tables', (rows, fields) ->
     tables = _(rows).map( (r) -> r['Tables_in_humhub'])
-    _(tables).forEach( (t) -> writeRouterMethod t)
+    capitalizeTables = []
+    _(tables).forEach( (t) ->
+      writeRouterMethod t
+      capitalizeTables.push(S(t).classify().capitalize().value())
+    )
+    file = fs.readFileSync './installRouter.ejs', 'utf8'
+    data = ejs.render(file, {t: capitalizeTables}, null)
+    fs.appendFile './routers/installRouter.go', data
 
 class Attribute
   constructor: (@name, @type, @tag) ->
@@ -69,7 +76,6 @@ writeRouterMethod = (tableName) ->
 
     file = fs.readFileSync './routerTemplate.ejs', 'utf8'
     data = ejs.render(file, table, null)
-
-    fs.appendFile './routers.go', data
+    fs.appendFile './routers/routers.go', data, null
 
 listTables()

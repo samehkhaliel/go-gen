@@ -112,7 +112,7 @@ writeTableStruct = (tableName) ->
     file = fs.readFileSync './modelTemplate.ejs', 'utf8'
     data = ejs.render(file, table, null)
 
-    fs.appendFile './models.go', data
+    fs.appendFile './models/models.go', data
 
     #fs.appendFile 'model.go', data, (error) ->
     #  console.error("Error writing file", error) if error
