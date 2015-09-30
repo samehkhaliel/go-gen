@@ -49,8 +49,11 @@ func Install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
 				Trace: <%=name%>Post.Trace,<% } %>
 			}<% var foundGuid = false; attributes.forEach(function(attr) { if (attr.name == "Guid") { foundGuid = true; } }) %>
 			<% if (foundGuid) { %><%=name%>.Guid = uuid.NewV4().String()<% } %>
-			db.Create(&<%=name%>)
-			c.JSON(http.StatusOK, <%=name%>)
+			if err := db.Create(&<%=name%>).Error; err != nil {
+				c.AbortWithError(http.StatusBadRequest, err)
+			} else {
+				c.JSON(http.StatusOK, <%=name%>)
+			}
 		} else {
 			log.Print(err)
 			c.AbortWithError(http.StatusBadRequest, err)
