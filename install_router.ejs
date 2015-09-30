@@ -1,0 +1,11 @@
+package router
+
+import (
+  router_methods "github.com/hkarim/humhub-api/router/router_methods"
+  gin "github.com/gin-gonic/gin"
+	gorm "github.com/jinzhu/gorm"
+)
+
+func InstallRouter(db gorm.DB, router *gin.Engine) {<% t.forEach(function(table) { %>
+  router_methods.Install<%=table%>Router(db, router)<%})%>
+}

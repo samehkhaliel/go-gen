@@ -1,12 +1,23 @@
+package router_methods
+
+import (
+	log "log"
+	http "net/http"
+	strconv "strconv"
+
+	gin "github.com/gin-gonic/gin"
+	gorm "github.com/jinzhu/gorm"
+	<% if (guid) {%>uuid "github.com/satori/go.uuid"<% } %>
+
+	model "github.com/hkarim/humhub-api/model"
+)
 
 func Install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
 
 	// GET /<%=name%>
 	// GET all <%=name%>
 	router.GET("/<%=name%>", func(c *gin.Context) {
-		<% var findGuid = false; attributes.forEach(function(attr) {
-			if (attr.name == "Guid") { findGuid = true; } })
-			if (findGuid) { %>if guid := c.Query("guid"); guid != "" {
+		<% if (guid) { %>if guid := c.Query("guid"); guid != "" {
 		    var <%=name%> model.<%=capitalizeName%>
 		    query := &model.<%=capitalizeName%>{
 		      <%=capitalizeName%>Data: model.<%=capitalizeName%>Data{Guid: guid},
@@ -47,8 +58,8 @@ func Install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
 			<%=name%> := &model.<%=capitalizeName%>{
 				<%=capitalizeName%>Data: <%=name%>Post.<%=capitalizeName%>Data,<% if(trace) { %>
 				Trace: <%=name%>Post.Trace,<% } %>
-			}<% var foundGuid = false; attributes.forEach(function(attr) { if (attr.name == "Guid") { foundGuid = true; } }) %>
-			<% if (foundGuid) { %><%=name%>.Guid = uuid.NewV4().String()<% } %>
+			}
+			<% if (guid) { %><%=name%>.Guid = uuid.NewV4().String()<% } %>
 			if err := db.Create(&<%=name%>).Error; err != nil {
 				c.AbortWithError(http.StatusBadRequest, err)
 			} else {

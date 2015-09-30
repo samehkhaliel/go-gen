@@ -13,6 +13,16 @@ connection =
 
 connection.connect()
 
+createHierarcy = ->
+  fs.exists __dirname+'/router', (router_exists) ->
+    unless router_exists
+      fs.mkdir __dirname+'/router', ->
+        fs.mkdir __dirname+'/router/router_methods'
+    else
+      fs.exists __dirname+'/router/router_methods', (methods_exists) ->
+        unless methods_exists
+          fs.mkdir __dirname+'/router/router_methods'
+
 query = (sql, callback) ->
   connection.query sql, (err, rows, fields) ->
     if err
@@ -28,10 +38,10 @@ listTables = ->
       writeRouterMethod t
       capitalizeTables.push(S(t).classify().capitalize().value())
     )
-    fs.writeFile './routers/installRouter.go', ''
-    file = fs.readFileSync './installRouter.ejs', 'utf8'
+    fs.writeFile './router/install_router.go', ''
+    file = fs.readFileSync './install_router.ejs', 'utf8'
     data = ejs.render(file, {t: capitalizeTables}, null)
-    fs.appendFile './routers/installRouter.go', data
+    fs.appendFile './router/install_router.go', data
 
 class Attribute
   constructor: (@name, @type, @tag) ->
@@ -40,6 +50,7 @@ class Table
   constructor: (@name) ->
     @capitalizeName = S(@name).classify().capitalize().value()
     @trace = false
+    @guid = false
     @attributes = []
   addAttribtue: (name, type, tag) ->
     newAttribute = new Attribute(name, type, tag)
@@ -61,7 +72,6 @@ traceTable = (attribute) ->
       return false
 
 writeRouterMethod = (tableName) ->
-  fs.writeFile './routers/routers.go', ''
   query "describe humhub.#{tableName}", (rows, fields) ->
     table = new Table(tableName)
 
@@ -73,11 +83,16 @@ writeRouterMethod = (tableName) ->
           table.trace = true
         else
           modelType = modifyFieldType(type)  # convert sqlType to modelType
+          if (attribute == "Guid")
+            table.guid = true
           jsonAttribute = attribute[0].toLowerCase() + attribute.substr(1)  # lowercase the attribute for json
           table.addAttribtue(attribute, modelType, jsonAttribute)
 
-    file = fs.readFileSync './routerTemplate.ejs', 'utf8'
+    fs.writeFile './router/router_methods/'+table.name+'.go', ''
+    file = fs.readFileSync './router_template.ejs', 'utf8'
     data = ejs.render(file, table, null)
-    fs.appendFile './routers/routers.go', data
+    fs.appendFile './router/router_methods/'+table.name+'.go', data
 
+
+createHierarcy()
 listTables()
