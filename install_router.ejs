@@ -1,11 +1,20 @@
 package router
 
 import (
-  router_methods "github.com/hkarim/humhub-api/router/router_methods"
+  os "os"
+
   gin "github.com/gin-gonic/gin"
 	gorm "github.com/jinzhu/gorm"
 )
 
+var userHeader string
+
+func init() {
+	if userHeader = os.ExpandEnv("$HEADER_USER"); userHeader == "" {
+		userHeader = "x-user"
+	}
+}
+
 func InstallRouter(db gorm.DB, router *gin.Engine) {<% t.forEach(function(table) { %>
-  router_methods.Install<%=table%>Router(db, router)<%})%>
+  Install<%=table%>Router(db, router)<%})%>
 }

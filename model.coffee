@@ -17,6 +17,9 @@ createHierarcy = ->
   fs.exists __dirname+'/model', (model_exists) ->
     unless model_exists
       fs.mkdir __dirname+'/model'
+    file = fs.readFileSync './init_model.ejs', 'utf8'
+    data = ejs.render(file)
+    fs.writeFile './model/models.go', data
 
 query = (sql, callback) ->
   connection.query sql, (err, rows, fields) ->
@@ -25,7 +28,7 @@ query = (sql, callback) ->
     else
       callback(rows, fields)
 
-listTables = ->
+listTables = () ->
   query 'show tables', (rows, fields) ->
     tables = _(rows).map( (r) -> r['Tables_in_humhub'])
     _(tables).forEach( (t) -> writeTableStruct t)
@@ -59,7 +62,6 @@ traceTable = (attribute) ->
       return false
 
 writeTableStruct = (tableName) ->
-  fs.writeFile './model/models.go', ''
 
   query "describe humhub.#{tableName}", (rows, fields) ->
     table = new Table(S(tableName).classify().capitalize().value())

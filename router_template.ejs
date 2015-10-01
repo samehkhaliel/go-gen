@@ -1,4 +1,4 @@
-package router_methods
+package router
 
 import (
 	log "log"
@@ -59,22 +59,28 @@ func Install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
 				<%=capitalizeName%>Data: <%=name%>Data,
 			}
 			<% if (guid) { %><%=name%>.Guid = uuid.NewV4().String()<% } %>
-			<% if (trace) { %>var x_user uint64
-			if resp := c.Request.Header.Get("x-user"); resp != "" {
-				user, _ := strconv.ParseUint(resp, 10, 64)
-				x_user = user
-			} else {
-				resp := c.Request.Header.Get("x-user")
-				user, _ := strconv.ParseUint(resp, 10, 64)
-				x_user = user
-			}
-			<%=name%>.Trace.CreatedBy = x_user
-			<%=name%>.Trace.UpdatedBy = x_user<% } %>
-			if err := db.Create(&<%=name%>).Error; err != nil {
-				c.AbortWithError(http.StatusBadRequest, err)
-			} else {
-				c.JSON(http.StatusOK, <%=name%>)
-			}
+			<% if (trace) { %>
+				var x_user uint64
+				if resp := c.Request.Header.Get(userHeader); resp != "" {
+					conv_user, _ := strconv.ParseUint(resp, 10, 64)
+					x_user = conv_user
+					<%=name%>.Trace.CreatedBy = x_user
+					<%=name%>.Trace.UpdatedBy = x_user
+					if err := db.Create(&<%=name%>).Error; err != nil {
+						c.AbortWithError(http.StatusBadRequest, err)
+					} else {
+						c.JSON(http.StatusOK, <%=name%>)
+					}
+				} else {
+					c.AbortWithStatus(http.StatusForbidden)
+				}
+				<% } else { %>
+					if err := db.Create(&<%=name%>).Error; err != nil {
+						c.AbortWithError(http.StatusBadRequest, err)
+					} else {
+						c.JSON(http.StatusOK, <%=name%>)
+					}
+					<% } %>
 		} else {
 			log.Print(err)
 			c.AbortWithError(http.StatusBadRequest, err)

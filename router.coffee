@@ -17,11 +17,7 @@ createHierarcy = ->
   fs.exists __dirname+'/router', (router_exists) ->
     unless router_exists
       fs.mkdir __dirname+'/router', ->
-        fs.mkdir __dirname+'/router/router_methods'
     else
-      fs.exists __dirname+'/router/router_methods', (methods_exists) ->
-        unless methods_exists
-          fs.mkdir __dirname+'/router/router_methods'
 
 query = (sql, callback) ->
   connection.query sql, (err, rows, fields) ->
@@ -88,10 +84,10 @@ writeRouterMethod = (tableName) ->
           jsonAttribute = attribute[0].toLowerCase() + attribute.substr(1)  # lowercase the attribute for json
           table.addAttribtue(attribute, modelType, jsonAttribute)
 
-    fs.writeFile './router/router_methods/'+table.name+'.go', ''
+    fs.writeFile './router/'+table.name+'.go', ''
     file = fs.readFileSync './router_template.ejs', 'utf8'
     data = ejs.render(file, table, null)
-    fs.appendFile './router/router_methods/'+table.name+'.go', data
+    fs.appendFile './router/'+table.name+'.go', data
 
 
 createHierarcy()
