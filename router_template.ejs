@@ -53,17 +53,50 @@ func Install<%=capitalizeName%>Router(db gorm.DB, router *gin.Engine) {
 	// POST /<%=name%>
 	// POST new <%=name%> to database
 	router.POST("/<%=name%>", func(c *gin.Context) {
-		var <%=name%>Post model.<%=capitalizeName%>Post
-		if err := c.BindJSON(&<%=name%>Post); err == nil {
+		var <%=name%>Data model.<%=capitalizeName%>Data
+		if err := c.BindJSON(&<%=name%>Data); err == nil {
 			<%=name%> := &model.<%=capitalizeName%>{
-				<%=capitalizeName%>Data: <%=name%>Post.<%=capitalizeName%>Data,<% if(trace) { %>
-				Trace: <%=name%>Post.Trace,<% } %>
+				<%=capitalizeName%>Data: <%=name%>Data,
 			}
 			<% if (guid) { %><%=name%>.Guid = uuid.NewV4().String()<% } %>
+			<% if (trace) { %>var x_user uint64
+			if resp := c.Request.Header.Get("x-user"); resp != "" {
+				user, _ := strconv.ParseUint(resp, 10, 64)
+				x_user = user
+			} else {
+				resp := c.Request.Header.Get("x-user")
+				user, _ := strconv.ParseUint(resp, 10, 64)
+				x_user = user
+			}
+			<%=name%>.Trace.CreatedBy = x_user
+			<%=name%>.Trace.UpdatedBy = x_user<% } %>
 			if err := db.Create(&<%=name%>).Error; err != nil {
 				c.AbortWithError(http.StatusBadRequest, err)
 			} else {
 				c.JSON(http.StatusOK, <%=name%>)
+			}
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+	// PUT /<%=name%>
+	// Update <%=name%> data by id
+	router.PUT("/<%=name%>/:id", func(c *gin.Context) {
+		_id := c.Param("id")
+		if id, err := strconv.ParseUint(_id, 10, 64); err == nil {
+			var <%=name%>Data model.<%=capitalizeName%>Data
+			if err := c.BindJSON(&<%=name%>Data); err == nil {
+				<%=name%> := &model.<%=capitalizeName%>{
+					<%=capitalizeName%>Data: <%=name%>Data,
+					<%=capitalizeName%>Id: model.<%=capitalizeName%>Id {Id: id},
+				}
+				if err := db.Save(&<%=name%>).Error; err != nil {
+					c.AbortWithError(http.StatusBadRequest, err)
+				} else {
+					c.JSON(http.StatusOK, <%=name%>)
+				}
 			}
 		} else {
 			log.Print(err)
