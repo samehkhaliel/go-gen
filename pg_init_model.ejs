@@ -1,0 +1,13 @@
+
+package model
+
+import (
+	"time"
+)
+
+type Trace struct {
+	CreatedAt time.Time `json:"createdAt"`
+	CreatedBy uint64    `json:"createdBy"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	UpdatedBy uint64    `json:"updatedBy"`
+}

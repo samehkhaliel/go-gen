@@ -1,0 +1,14 @@
+
+type <%= name %>Id struct {
+    Id uint64 `json:"id"`
+}
+
+type <%= name %>Data struct {<% attributes.forEach(function(attr){ %>
+    <%= attr.name %> <%= attr.type %> `json:"<%= attr.tag %>"`<% }) %>
+}
+
+type <%= name %> struct {
+    <%= name %>Id
+    <%= name %>Data `json:"data"`<% if(trace) {%>
+    Trace   `json:"trace"`<% } %>
+}

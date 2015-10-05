@@ -1,0 +1,100 @@
+package router
+
+import (
+	log "log"
+	http "net/http"
+	strconv "strconv"
+
+	gin "github.com/gin-gonic/gin"
+	gorm "github.com/jinzhu/gorm"
+
+	model "github.com/sameh/nxt-event/nxt-event-go/src/model"
+)
+
+func Install<%=name%>Router(db gorm.DB, router *gin.Engine) {
+	// GET /<%=name%>
+	// GET all <%=name%>
+	router.GET("/<%=name%>", func(c *gin.Context) {
+		var <%=name%> []model.<%=name%>
+		db.Find(&<%=name%>)
+		c.JSON(http.StatusOK, <%=name%>)
+	})
+
+	// GET /<%=name%>/:id
+	// GET <%=name%> by id
+	router.GET("/<%=name%>/:id", func(c *gin.Context) {
+		_id := c.Param("id")
+		if id, err := strconv.ParseUint(_id, 10, 64); err == nil {
+			var <%=name%> model.<%=name%>
+			query := &model.<%=name%>{
+				<%=name%>Id: model.<%=name%>Id{Id: id},
+			}
+			db.Where(&query).First(&<%=name%>)
+			c.JSON(http.StatusOK, <%=name%>)
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+	// POST /<%=name%>
+	// POST new <%=name%> to database
+	router.POST("/<%=name%>", func(c *gin.Context) {
+		var <%=name%>Data model.<%=name%>Data
+		if err := c.BindJSON(&<%=name%>Data); err == nil {
+			<%=name%> := &model.<%=name%>{
+				<%=name%>Data: <%=name%>Data,
+			}
+			
+			<% if (trace) { %>
+				var x_user uint64
+				if resp := c.Request.Header.Get(userHeader); resp != "" {
+					conv_user, _ := strconv.ParseUint(resp, 10, 64)
+					x_user = conv_user
+					<%=name%>.Trace.CreatedBy = x_user
+					<%=name%>.Trace.UpdatedBy = x_user
+					if err := db.Create(&<%=name%>).Error; err != nil {
+						c.AbortWithError(http.StatusBadRequest, err)
+					} else {
+						c.JSON(http.StatusOK, <%=name%>)
+					}
+				} else {
+					c.AbortWithStatus(http.StatusForbidden)
+				}
+				<% } else { %>
+					if err := db.Create(&<%=name%>).Error; err != nil {
+						c.AbortWithError(http.StatusBadRequest, err)
+					} else {
+						c.JSON(http.StatusOK, <%=name%>)
+					}
+					<% } %>
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+	// PUT /<%=name%>
+	// Update <%=name%> data by id
+	router.PUT("/<%=name%>/:id", func(c *gin.Context) {
+		_id := c.Param("id")
+		if id, err := strconv.ParseUint(_id, 10, 64); err == nil {
+			var <%=name%>Data model.<%=name%>Data
+			if err := c.BindJSON(&<%=name%>Data); err == nil {
+				<%=name%> := &model.<%=name%>{
+					<%=name%>Data: <%=name%>Data,
+					<%=name%>Id: model.<%=name%>Id {Id: id},
+				}
+				if err := db.Save(&<%=name%>).Error; err != nil {
+					c.AbortWithError(http.StatusBadRequest, err)
+				} else {
+					c.JSON(http.StatusOK, <%=name%>)
+				}
+			}
+		} else {
+			log.Print(err)
+			c.AbortWithError(http.StatusBadRequest, err)
+		}
+	})
+
+}

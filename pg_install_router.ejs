@@ -1,0 +1,12 @@
+package router
+
+import (
+  os "os"
+
+  gin "github.com/gin-gonic/gin"
+	gorm "github.com/jinzhu/gorm"
+)
+
+func InstallRouter(db gorm.DB, router *gin.Engine) {<% t.forEach(function(table) { %>
+  Install<%=table%>Router(db, router)<%})%>
+}
